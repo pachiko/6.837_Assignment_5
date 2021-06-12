@@ -1,0 +1,17 @@
+-It is good to check diffuse shading with a4's scenes, but reflection & refraction looks weird (validated with solutions)
+-the blue shade in test case 10 is (probably) due to Perlin shader.
+
+-When doing Fresnel, DO NOT recurse if TIR, since reflection does that already.
+
+-When you are in a medium and you hit the boundary of the same medium to exit,
+ the ior from Material is still the same one. So you need to put back to 1.f.
+-Also need to flip the normals, in addition to switching the transmitted medium's ior.
+ You will get a dark sphere for test case 10 otherwise.
+-Ideally, this flipping is done OUTSIDE the function that returns the refracted direction + TIR flag.
+-Only add reflection color if TIR or same ior.
+-Use Fresnel-weighted sum of reflection and refraction, if refraction.
+-Use specular component to represent both the transmittance and reflectance.
+-Not sure why the cos_theta for Schlick uses reflected/refracted dir.
+ In Scotty3D & Wikipedia, input dir is used. Don't see a big change either.
+
+-The vase looks mirror-like at the top and bottom. Not sure if bug
